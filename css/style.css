@@ -7,3 +7,16 @@ h1 {
 	font-size: 24px;
 	font-weight: 300;
 }
+
+#red-button {
+	background-color: red;
+}
+#yellow-button {
+	background-color: yellow;
+}
+#blue-button {
+	background-color: lightblue;
+}
+#green-button {
+	background-color: green;
+}
