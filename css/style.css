@@ -20,3 +20,10 @@ h1 {
 #green-button {
 	background-color: green;
 }
+.color-button {
+	min-height: 30px;
+}
+#strict-LED {
+	background-color: black;
+	min-height: 30px;
+}
