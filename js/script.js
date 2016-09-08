@@ -14,12 +14,6 @@ $(document).ready(function() {
   var strictMode = false;
   var colorButtonsDisabled = true
 
-  const soundMap = {
-  	"red-button": "sounds/redSound.mp3",
-  	"yellow-button":"sounds/yellowSound.mp3",
-  	"blue-button": "sounds/blueSound.mp3",
-  	"green-button": "sounds/greenSound.mp3"};
-
   $("#strict-button").click(function() {
   	console.log("deviceOn: " + deviceOn + " gameOn: " + gameOn + " strictMode: " + strictMode);
   	if (deviceOn && gameOn) {
@@ -44,16 +38,27 @@ $(document).ready(function() {
   $(".color-button").mousedown(function() {
   	if (deviceOn && gameOn && !colorButtonsDisabled){
   		console.log("clicked on " + $(this)[0].id)
-  		animateSingleButton($(this)[0].id);
+  		
 	// b. Compare button y to button at current index in button history array
 			console.log("button id: " + $(this)[0].id + " buttonHistory[currentIndex]: " + buttonHistory[currentIndex])
 			if ($(this)[0].id == buttonHistory[currentIndex]){
+				animateSingleButton($(this)[0].id);
 				if (currentIndex < buttonHistory.length - 1) {
 					currentIndex++;
 				} else {
-					computerTurn();
+					colorButtonsDisabled = true;
+					setTimeout(function(){computerTurn()},2000);
 				}
-			}
+			} else {
+					if (strictMode) {
+						$("#count-box").html = "!!";
+						colorButtonsDisabled = true;
+						setTimeout(function(){restartGame()},2000);
+					} else {
+						colorButtonsDisabled = true;
+						setTimeout(function(){replay()},2000);
+					}
+				}
 	// c. If equal and current index < length of button history array: i. Increment current index
 	// ii. Wait for user to click on any button
 	// d. If equal and current index = length of button history array
@@ -68,6 +73,18 @@ $(document).ready(function() {
 	// 3. Wait for user to click on any button
   	}
   });
+  function replay() {
+  	// d. Set current index = 0
+		currentIndex = 0;
+		// e. Disable color buttons
+		colorButtonsDisabled = true;
+		// f. Animate button history array (including sounds)
+		animateButtonHistory();
+		// g. Enable color buttons
+		colorButtonsDisabled = false;
+		// h. Wait for user to click on any button
+		//(don’t need to call anything since jquery handlers are listening)
+  }
 
   $("#start-button").click(function(){
   	if (deviceOn) {
@@ -129,27 +146,44 @@ $(document).ready(function() {
   function animateButtonHistory() {
 		// a. Set loop index = 0
 		var loopIndex = 0;
+		// var bH = ["red-button","yellow-button","blue-button"];
+		// eval("setTimeout(function(){animateSingleButton(bH[0])}, 2000);" +
+		// "setTimeout(function(){animateSingleButton(bH[1])}, 4000);" +
+		// "setTimeout(function(){animateSingleButton(bH[2])}, 6000);")
+		var evalString = "";
 		// b. While current index < length of button history array AND game_on (is true)
 		while ((loopIndex < buttonHistory.length) && gameOn && deviceOn){
-			//animateSingleButton(buttonHistory[loopIndex])
-			setTimeout(function(){animateSingleButton(buttonHistory[loopIndex])}, loopIndex*2000);
-			//function(){animateSingleButton(buttonHistory[loopIndex])}
-			//animateSingleButton(buttonHistory[loopIndex]);
+			console.log(buttonHistory[loopIndex])
+			evalString = evalString + "setTimeout(function(){animateSingleButton('" + buttonHistory[loopIndex] + "')}, " + loopIndex * 2000 + ");"
+
+			// This doesn't work:
+		 	// setTimeout(function() {
+		 	// 	animateSingleButton.bind(this,buttonHistory[loopIndex]);
+		 	// }.bind(this,loopIndex,buttonHistory), loopIndex*2000);
+
 			loopIndex++;
 		}
+		console.log(evalString);
+		eval(evalString);
   }
 
-  function animateSingleButton(buttonID) {
-  	console.log(buttonID);
-  	playSound(buttonID);
+  function animateSingleButton(b) {
+  	console.log("animate single button: buttonID = " + b);
+  	playSound(b);
 		// Change button x color to lighter color of button x’s normal color
-		$("#" + buttonID).css("opacity","0.5");
-		setTimeout(function(){$("#" + buttonID).css("opacity","1")}, 1000);
+		$("#" + b).css("opacity","0.5");
+		setTimeout(function(){$("#" + b).css("opacity","1")}, 1000);
   }
 
   function playSound(buttonID) {
   //Play sound for button x (store sound urls in sound_array in same order as button names)
   //for a duration (window.setInterval(callback, duration_in_milliseconds) maybe)
+  	const soundMap = {
+  	"red-button": "sounds/redSound.mp3",
+  	"yellow-button":"sounds/yellowSound.mp3",
+  	"blue-button": "sounds/blueSound.mp3",
+  	"green-button": "sounds/greenSound.mp3"};
+
   	var buttonSound = new sound(soundMap[buttonID])
   	buttonSound.play();
 	}
