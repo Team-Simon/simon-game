@@ -27,7 +27,7 @@ $(document).ready(function() {
   	}
   });
 
-  $("#on-off-button").click(function() {
+  $("#on-off-slider").click(function() {
   	if (deviceOn) {
   		turnDeviceOff();
   	} else {
