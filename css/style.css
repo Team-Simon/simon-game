@@ -10,18 +10,31 @@ h1 {
 
 #red-button {
 	background-color: red;
+	border-radius: 0 100px 0 0;
+	height: 100px;
+	width: 100px;
 }
 #yellow-button {
 	background-color: yellow;
+	height: 100px;
+	width: 100px;
+	border-radius: 0 0 0 100px;
 }
 #blue-button {
 	background-color: lightblue;
+	height: 100px;
+	width: 100px;
+	border-radius: 0 0 100px 0;
 }
 #green-button {
 	background-color: green;
+	border-radius: 100px 0 0 0;
+	height: 100px;
+	width: 100px;
 }
 .color-button {
 	min-height: 30px;
+	border: 10px solid black;
 }
 #strict-LED {
 	background-color: black;
