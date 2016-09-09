@@ -12,7 +12,15 @@ $(document).ready(function() {
   //Boolean used to check if the device is on
   var deviceOn = false;
   var strictMode = false;
-  var colorButtonsDisabled = true
+  var colorButtonsDisabled = true;
+  var timeouts = [];
+  const speed = 1000;
+  const lightSpeed = 750;
+
+  function clearTimeoutsArray() {
+    timeouts.map(clearTimeout);
+		timeouts = [];
+  }
 
   $("#strict-button").click(function() {
   	console.log("deviceOn: " + deviceOn + " gameOn: " + gameOn + " strictMode: " + strictMode);
@@ -35,10 +43,10 @@ $(document).ready(function() {
   	}
   });
 
-  $(".color-button").mousedown(function() {
+  $(".color-button").click(function() {
+  	console.log("colorButtonsDisabled: " + colorButtonsDisabled);
   	if (deviceOn && gameOn && !colorButtonsDisabled){
   		console.log("clicked on " + $(this)[0].id)
-  		
 	// b. Compare button y to button at current index in button history array
 			console.log("button id: " + $(this)[0].id + " buttonHistory[currentIndex]: " + buttonHistory[currentIndex])
 			if ($(this)[0].id == buttonHistory[currentIndex]){
@@ -47,16 +55,16 @@ $(document).ready(function() {
 					currentIndex++;
 				} else {
 					colorButtonsDisabled = true;
-					setTimeout(function(){computerTurn()},2000);
+					timeouts.push(setTimeout(function(){computerTurn()},2000));
 				}
 			} else {
 				if (strictMode) {
 					$("#count-box").html = "!!";
 					colorButtonsDisabled = true;
-					setTimeout(function(){restartGame()},2000);
+					timeouts.push(setTimeout(function(){restartGame()},2000));
 				} else {
 					colorButtonsDisabled = true;
-					setTimeout(function(){replay()},2000);
+					timeouts.push(setTimeout(function(){replay()},2000));
 				}
 			}
   	}
@@ -70,7 +78,7 @@ $(document).ready(function() {
 		//animateButtonHistory();
 		animateButtonChain(0);
 		// g. Enable color buttons
-		colorButtonsDisabled = false;
+		//colorButtonsDisabled = false;
 		// h. Wait for user to click on any button
 		//(don’t need to call anything since jquery handlers are listening)
   }
@@ -83,6 +91,7 @@ $(document).ready(function() {
 
   function restartGame() {
   	console.log("restarting game");
+  	clearTimeoutsArray();
   	// 0. Turn game on
   	gameOn = true;
 		// a. Set count = 0
@@ -96,11 +105,14 @@ $(document).ready(function() {
   }
 
   function turnDeviceOn() {
+  	clearTimeoutsArray()
   	gameOn = false;
   	deviceOn = true;
+  	$("#count-box").html(" -- ");
   }
 
   function turnDeviceOff() {
+  	clearTimeoutsArray()
 		// a. Set game_on variable to false
 		gameOn = false;
 		deviceOn = false;
@@ -129,43 +141,28 @@ $(document).ready(function() {
 		//animateButtonHistory();
 		animateButtonChain(0);
 		// g. Enable color buttons
-		colorButtonsDisabled = false;
+		//colorButtonsDisabled = false;
 		// h. Wait for user to click on any button
 		//(don’t need to call anything since jquery handlers are listening)
   }
 
-  function animateButtonHistoryNoEval() {
-		// a. Set loop index = 0
-		var loopIndex = 0;
-		// b. While current index < length of button history array AND game_on (is true)
-		while ((loopIndex < buttonHistory.length) && gameOn && deviceOn){
-			console.log(buttonHistory[loopIndex])
-			//evalString = evalString + "setTimeout(function(){animateSingleButton('" + buttonHistory[loopIndex] + "')}, " + loopIndex * 2000 + ");"
-
-			// This doesn't work:
-		 	setTimeout(function() {
-		 		console.log(buttonHistory[loopIndex])
-		 		animateSingleButton.bind(buttonHistory[loopIndex]);
-		 	}, loopIndex*2000);
-
-			loopIndex++;
-		}
-  }
-
   function animateSingleButton(b) {
   	if (gameOn) {
-	  	console.log("animate single button: buttonID = " + b);
+	  	//console.log("animate single button: buttonID = " + b);
 	  	playSound(b);
 			// Change button x color to lighter color of button x’s normal color
 			$("#" + b).css("opacity","0.5");
-			setTimeout(function(){$("#" + b).css("opacity","1")}, 1000);
+			timeouts.push(setTimeout(function(){$("#" + b).css("opacity","1")}, 1000));
 		}
   }
 
   function animateButtonChain(loopIndex) {
   	if (loopIndex < buttonHistory.length) {
-  		setTimeout(function(){animateSingleButton(buttonHistory[loopIndex]);},2000*loopIndex)
+  		timeouts.push(setTimeout(function(){animateSingleButton(buttonHistory[loopIndex]);},2000*loopIndex));
   		animateButtonChain(loopIndex+1);
+  		
+  	} else {
+  		colorButtonsDisabled = false;
   	}
   }
 

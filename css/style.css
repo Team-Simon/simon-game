@@ -48,6 +48,7 @@ h1 {
 	height: 30px;
 	background-color: black;
 	color: white;
+	text-align: center;
 }
 /* The switch - the box around the slider */
 .switch {
