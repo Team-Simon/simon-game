@@ -136,34 +136,43 @@ $(document).ready(function() {
 		// e. Disable color buttons
 		colorButtonsDisabled = true;
 		// f. Animate button history array (including sounds)
-		animateButtonHistory();
+		//animateButtonHistory();
+		animateButtonChain(0);
 		// g. Enable color buttons
 		colorButtonsDisabled = false;
 		// h. Wait for user to click on any button
 		//(don’t need to call anything since jquery handlers are listening)
   }
 
-  function animateButtonHistory() {
+  function animateButtonHistoryNoEval() {
 		// a. Set loop index = 0
 		var loopIndex = 0;
-		// var bH = ["red-button","yellow-button","blue-button"];
-		// eval("setTimeout(function(){animateSingleButton(bH[0])}, 2000);" +
-		// "setTimeout(function(){animateSingleButton(bH[1])}, 4000);" +
-		// "setTimeout(function(){animateSingleButton(bH[2])}, 6000);")
+		// b. While current index < length of button history array AND game_on (is true)
+		while ((loopIndex < buttonHistory.length) && gameOn && deviceOn){
+			console.log(buttonHistory[loopIndex])
+			//evalString = evalString + "setTimeout(function(){animateSingleButton('" + buttonHistory[loopIndex] + "')}, " + loopIndex * 2000 + ");"
+
+			// This doesn't work:
+		 	setTimeout(function() {
+		 		console.log(buttonHistory[loopIndex])
+		 		animateSingleButton.bind(buttonHistory[loopIndex]);
+		 	}, loopIndex*2000);
+
+			loopIndex++;
+		}
+  }
+
+  function animateButtonHistoryEval() {
+		// a. Set loop index = 0
+		var loopIndex = 0;
 		var evalString = "";
 		// b. While current index < length of button history array AND game_on (is true)
 		while ((loopIndex < buttonHistory.length) && gameOn && deviceOn){
 			console.log(buttonHistory[loopIndex])
-			evalString = evalString + "setTimeout(function(){animateSingleButton('" + buttonHistory[loopIndex] + "')}, " + loopIndex * 2000 + ");"
-
-			// This doesn't work:
-		 	// setTimeout(function() {
-		 	// 	animateSingleButton.bind(this,buttonHistory[loopIndex]);
-		 	// }.bind(this,loopIndex,buttonHistory), loopIndex*2000);
-
+			evalString = evalString + "setTimeout(function(){animateSingleButton('" + buttonHistory[loopIndex] + "')}, " + loopIndex * 2000 + ");
 			loopIndex++;
 		}
-		console.log(evalString);
+		//console.log(evalString);
 		eval(evalString);
   }
 
@@ -173,6 +182,14 @@ $(document).ready(function() {
 		// Change button x color to lighter color of button x’s normal color
 		$("#" + b).css("opacity","0.5");
 		setTimeout(function(){$("#" + b).css("opacity","1")}, 1000);
+
+  }
+
+  function animateButtonChain(loopIndex) {
+  	if (loopIndex < buttonHistory.length) {
+  		setTimeout(function(){animateSingleButton(buttonHistory[loopIndex]);},2000)
+  		animateButtonChain(loopIndex+1);
+  	}
   }
 
   function playSound(buttonID) {
