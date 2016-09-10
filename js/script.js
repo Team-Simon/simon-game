@@ -14,7 +14,8 @@ $(document).ready(function() {
   var strictMode = false;
   var colorButtonsDisabled = true;
   var timeouts = [];
-  const speed = 1000;
+  var speed = 1000;
+  const baseSpeed = 1000;
   const lightSpeed = 750;
 
   function clearTimeoutsArray() {
@@ -23,8 +24,7 @@ $(document).ready(function() {
   }
 
   $("#strict-button").click(function() {
-  	console.log("deviceOn: " + deviceOn + " gameOn: " + gameOn + " strictMode: " + strictMode);
-  	if (deviceOn && gameOn) {
+  	if (deviceOn) {
   		if (strictMode) {
   			strictMode = false;
   			$("#strict-LED").css("background-color","black");
@@ -43,44 +43,35 @@ $(document).ready(function() {
   	}
   });
 
-  $(".color-button").click(function() {
-  	console.log("colorButtonsDisabled: " + colorButtonsDisabled);
+  $(".color-button").mousedown(function() {
   	if (deviceOn && gameOn && !colorButtonsDisabled){
-  		console.log("clicked on " + $(this)[0].id)
-	// b. Compare button y to button at current index in button history array
-			console.log("button id: " + $(this)[0].id + " buttonHistory[currentIndex]: " + buttonHistory[currentIndex])
+  		$(".color-button").css("opacity","1");
 			if ($(this)[0].id == buttonHistory[currentIndex]){
-				animateSingleButton($(this)[0].id);
+				animateSingleButton($(this)[0].id,true);
 				if (currentIndex < buttonHistory.length - 1) {
 					currentIndex++;
 				} else {
 					colorButtonsDisabled = true;
-					timeouts.push(setTimeout(function(){computerTurn()},2000));
+					timeouts.push(setTimeout(function(){computerTurn()},speed));
 				}
 			} else {
+				animateSingleButton($(this)[0].id,false);
 				if (strictMode) {
 					$("#count-box").html = "!!";
 					colorButtonsDisabled = true;
-					timeouts.push(setTimeout(function(){restartGame()},2000));
+					timeouts.push(setTimeout(function(){restartGame()},speed*1.5));
 				} else {
 					colorButtonsDisabled = true;
-					timeouts.push(setTimeout(function(){replay()},2000));
+					timeouts.push(setTimeout(function(){replay()},speed*1.5));
 				}
 			}
   	}
   });
+
   function replay() {
-  	// d. Set current index = 0
 		currentIndex = 0;
-		// e. Disable color buttons
 		colorButtonsDisabled = true;
-		// f. Animate button history array (including sounds)
-		//animateButtonHistory();
 		animateButtonChain(0);
-		// g. Enable color buttons
-		//colorButtonsDisabled = false;
-		// h. Wait for user to click on any button
-		//(don’t need to call anything since jquery handlers are listening)
   }
 
   $("#start-button").click(function(){
@@ -91,16 +82,12 @@ $(document).ready(function() {
 
   function restartGame() {
   	console.log("restarting game");
+  	speed = baseSpeed;
   	clearTimeoutsArray();
-  	// 0. Turn game on
   	gameOn = true;
-		// a. Set count = 0
 		count = 0;
-		// b. Count-box set to zero
 		$("#count-box").html(count);
-		// c. Button history array is empty
 		buttonHistory = [];
-		// d. Start game engine (Computer Turn)
 		computerTurn();
   }
 
@@ -112,58 +99,51 @@ $(document).ready(function() {
   }
 
   function turnDeviceOff() {
-  	//alert("turning device off");
   	clearTimeoutsArray()
-		// a. Set game_on variable to false
 		gameOn = false;
 		deviceOn = false;
-		// b. Strict-LED set off
 		$("#strict-LED").css("background-color","black");
-		// c. Count set to “”
 		$("#count-box").html("");
-		// d. count set to 0
 		count = 0;
 		$(".color-button").css("opacity","1");
 		buttonHistory = [];
   }
 
   function computerTurn() {
-  	// a. Increment count
   	count++;
+  	if (count > 5) {speed = lightSpeed;}
   	$("#count-box").html(count);
-		// b. Randomly generate button x: Function that randomly generates a button (Math.random 0-0.25, 0.25-0.5, 0.5-0.75, 0.75-1 => a,b,c,d)
 		var nextButton = randomButton();
-		// c. Append button x to button history array
 		buttonHistory.push(nextButton);
-		// d. Set current index = 0
 		currentIndex = 0;
-		// e. Disable color buttons
 		colorButtonsDisabled = true;
-		// f. Animate button history array (including sounds)
-		//animateButtonHistory();
 		animateButtonChain(0);
-		// g. Enable color buttons
-		//colorButtonsDisabled = false;
   }
 
-  function animateSingleButton(b) {
+  function animateSingleButton(b,correctBool) {
   	if (gameOn) {
-	  	//console.log("animate single button: buttonID = " + b);
-	  	playSound(b);
-			// Change button x color to lighter color of button x’s normal color
+  		if (correctBool){
+  			playSound(b);
+  		} else {
+  			playErrorSound();
+  		}
 			$("#" + b).css("opacity","0.5");
-			timeouts.push(setTimeout(function(){$("#" + b).css("opacity","1")}, 1000));
+			timeouts.push(setTimeout(function(){$("#" + b).css("opacity","1")}, speed/2));
 		}
   }
 
   function animateButtonChain(loopIndex) {
   	if (loopIndex < buttonHistory.length) {
-  		timeouts.push(setTimeout(function(){animateSingleButton(buttonHistory[loopIndex]);},2000*loopIndex));
+  		timeouts.push(setTimeout(function(){animateSingleButton(buttonHistory[loopIndex],true);},speed*loopIndex));
   		animateButtonChain(loopIndex+1);
-
   	} else {
-  		colorButtonsDisabled = false;
+  		timeouts.push(setTimeout(function(){colorButtonsDisabled = false;},speed*(loopIndex-0.5)));
   	}
+  }
+
+  function playErrorSound() {
+  	var buttonSound = new sound("sounds/fail.mp3")
+  	buttonSound.play();
   }
 
   function playSound(buttonID) {
@@ -193,12 +173,6 @@ $(document).ready(function() {
         this.sound.pause();
     }
 	}
-  function colorButtonsDisabled(bool) {
-  	console.log("disabling buttons " + bool);
-  	document.getElementById("red-button").disabled = true;
-  	console.log(document.getElementById("red-button").disabled)
-  }
-
   function randomButton() {
   	return buttons[getRandomIntInclusive(0,3)];
   }
@@ -209,5 +183,4 @@ $(document).ready(function() {
   	max = Math.floor(max);
   	return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
-
 });
