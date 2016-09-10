@@ -112,6 +112,7 @@ $(document).ready(function() {
   }
 
   function turnDeviceOff() {
+  	//alert("turning device off");
   	clearTimeoutsArray()
 		// a. Set game_on variable to false
 		gameOn = false;
@@ -122,6 +123,7 @@ $(document).ready(function() {
 		$("#count-box").html("");
 		// d. count set to 0
 		count = 0;
+		$(".color-button").css("opacity","1");
 		buttonHistory = [];
   }
 
@@ -142,8 +144,6 @@ $(document).ready(function() {
 		animateButtonChain(0);
 		// g. Enable color buttons
 		//colorButtonsDisabled = false;
-		// h. Wait for user to click on any button
-		//(don’t need to call anything since jquery handlers are listening)
   }
 
   function animateSingleButton(b) {
@@ -160,7 +160,7 @@ $(document).ready(function() {
   	if (loopIndex < buttonHistory.length) {
   		timeouts.push(setTimeout(function(){animateSingleButton(buttonHistory[loopIndex]);},2000*loopIndex));
   		animateButtonChain(loopIndex+1);
-  		
+
   	} else {
   		colorButtonsDisabled = false;
   	}
