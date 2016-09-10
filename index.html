@@ -15,22 +15,26 @@
 <body>
 	<h1>Simon</h1>
 	<div id="controlPanel"></div>
-	<div class="row">
-			<div class="col-md-1">
-				<div id="green-button" class="color-button"></div>
+	<div class="container-fluid">
+		<div id="game">
+			<div class="row gutter-0 row-gutters">
+				<div class="col-sm-5 col-xs-5 col-md-3 col-md-offset-3">
+						<div id="green-button" class="color-button"></div>
+					</div>
+					<div class="col-sm-5 col-xs-5 col-md-3">
+						<div id="red-button" class="color-button"></div>
+					</div>
 			</div>
-			<div class="col-md-1">
-				<div id="red-button" class="color-button"></div>
+		<div class="row gutter-0 row-gutters">
+			<div class="col-sm-5 col-xs-5 col-md-3 col-md-offset-3">
+				<div id="yellow-button" class="color-button bottom-button"></div>
 			</div>
-	</div>
-	<div class="row">
-		<div class="col-md-1">
-			<div id="yellow-button" class="color-button"></div>
+			<div class="col-sm-5 col-xs-5 col-md-3">
+				<div id="blue-button" class="color-button bottom-button"></div>
+			</div>
 		</div>
-		<div class="col-md-1">
-			<div id="blue-button" class="color-button"></div>
-		</div>
-	</div>
+</div>
+</div>
 	<button id="strict-button">Strict</button>
 	<button id="start-button">Start</button>
 	<div id="strict-LED"></div>
@@ -47,5 +51,6 @@
 </label>
 <span class="pull-left">ON</span>
 </div>
+
 </body>
 </html>

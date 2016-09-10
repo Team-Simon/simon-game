@@ -1,5 +1,9 @@
-body {
-	background-color: white;
+html, body {
+  margin: 0;
+	height: 100%;
+	width: 100%;
+	min-width: 40%;
+	min-height: 40%;
 }
 
 h1 {
@@ -10,33 +14,48 @@ h1 {
 
 #red-button {
 	background-color: red;
-	border-radius: 0 100px 0 0;
-	height: 100px;
-	width: 100px;
-
+	border-radius: 0 100% 0 0;
+	border-top: 26px solid black;
+	border-right: 26px solid black;
+	border-bottom: 13px solid black;
+  border-left: 13px solid black;
 }
+
 #yellow-button {
 	background-color: yellow;
-	height: 100px;
-	width: 100px;
-	border-radius: 0 0 0 100px;
+	border-radius: 0 0 0 100%;
+	border-top: 13px solid black;
+	border-left: 26px solid black;
+	border-right: 13px solid black;
+  border-bottom: 26px solid black;
 }
 #blue-button {
 	background-color: lightblue;
-	height: 100px;
-	width: 100px;
-	border-radius: 0 0 100px 0;
+	border-radius: 0 0 100% 0;
+  border-top: 13px solid black;
+	border-right: 26px solid black;
+	border-bottom: 26px solid black;
+  border-left: 13px solid black;
+
 }
 #green-button {
 	background-color: green;
-	border-radius: 100px 0 0 0;
-	height: 100px;
-	width: 100px;
+	border-radius: 100% 0 0 0;
+  border-top: 26px solid black;
+  border-left: 26px solid black;
+  border-right: 13px solid black;
+  border-bottom: 13px solid black;
 }
 .color-button {
-	min-height: 30px;
-	border: 10px solid black;
+ min-height: inherit;
+ min-width: inherit;
+	height: 100%;
+  width: 100%;
 }
+.bottom-button{
+	border-bottom: 20px solid black;
+}
+
 #strict-LED {
 	background-color: black;
 	min-height: 30px;
@@ -103,4 +122,49 @@ input:checked + .slider:before {
 #on-off-label {
 	height: 26px;
 	line-height: 39px;
+}
+
+[class^="col-"]{
+
+	min-height: inherit;
+	min-width: inherit;
+	height: 100%;
+
+}
+.gutter-0 > [class^="col-"], .gutter-0 > [class^=" col-"]{
+
+  padding-right: 0px;
+  padding-left: 0px;
+
+}
+
+.row-gutters{
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.row {
+
+  min-height: inherit;
+	height: 50%;
+  padding: 0;
+	margin: 0;
+}
+
+#game {
+
+	padding: 0;
+	min-height: inherit;
+	min-width: inherit;
+	height: 100%;
+	width: 100%;
+	margin: 2% auto;
+  overflow: hidden;
+}
+
+.container-fluid {
+	min-width: inherit;
+	min-height: inherit;
+	height: 100%;
+
 }
