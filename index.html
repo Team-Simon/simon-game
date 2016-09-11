@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Oswald:700|Russo+One|Montserrat" rel="stylesheet">  
 	<meta charset="utf-8">
 	<meta name="description" content="The Classic Memory Game built by startfastcode.com students">
 	<meta name="keywords" content="memory game freecodecamp startfast startfastcode webdev frontend">
@@ -13,44 +14,43 @@
 	<script src="js/script.js"></script>
 </head>
 <body>
-	<h1>Simon</h1>
-	<div id="controlPanel"></div>
-	<div class="container-fluid">
-		<div id="game">
-			<div class="row gutter-0 row-gutters">
-				<div class="col-sm-5 col-xs-5 col-md-3 col-md-offset-3">
+	<div id="game">
+		<div id="center-control">
+				<h1 class="text-center">Simon</h1>
+					<div id="strict-LED"></div>
+					<div id="control-row">
+							<div id="count-div">
+									<span id="count-box">
+
+									</span>
+								</div>
+								<div id="start-button"></div>
+								<div id="strict-button"></div>
+							</div>
+							<div id="button-labels-row">
+								<span>COUNT</span>
+								<span>START</span>
+								<span>STRICT</span>
+							</div>
+				<div id="on-off-label">
+					<span class="pull-left">OFF</span>
+						<label class="switch pull-left">
+						  <input type="checkbox" id="on-off-slider">
+						  	<div class="slider"></div>
+						</label>
+						<span class="pull-left">ON</span>
+						</div>
+				</div>
+				<div id="topRow">
 						<div id="green-button" class="color-button"></div>
-					</div>
-					<div class="col-sm-5 col-xs-5 col-md-3">
 						<div id="red-button" class="color-button"></div>
-					</div>
-			</div>
-		<div class="row gutter-0 row-gutters">
-			<div class="col-sm-5 col-xs-5 col-md-3 col-md-offset-3">
+				</div>
+		   <div id="bottomRow">
 				<div id="yellow-button" class="color-button bottom-button"></div>
-			</div>
-			<div class="col-sm-5 col-xs-5 col-md-3">
 				<div id="blue-button" class="color-button bottom-button"></div>
 			</div>
 		</div>
-</div>
-</div>
-	<button id="strict-button">Strict</button>
-	<button id="start-button">Start</button>
-	<div id="strict-LED"></div>
-<div id="count-div">
-	<span id="count-box">
 
-	</span>
-</div>
-<div id="on-off-label">
-<span class="pull-left">OFF</span>
-<label class="switch pull-left">
-  <input type="checkbox" id="on-off-slider">
-  <div class="slider"></div>
-</label>
-<span class="pull-left">ON</span>
-</div>
 
 </body>
 </html>
