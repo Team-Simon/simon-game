@@ -147,6 +147,7 @@ h1 {
   font-family: 'Montserrat',sans-serif;
   line-height: 45px;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+  text-shadow: 0 0 10px #FF7F00;
 }
 
 #button-labels-row {
