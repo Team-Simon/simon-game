@@ -11,10 +11,19 @@ html, body {
 }
 
 h1 {
-	font-family: 'Russo One',sans-serif;
-	font-size: 45px;
+	text-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+}
+
+.simon-logo {
+  font-size: 45px;
   font-weight: 800;
   margin-top: 12%;
+  font-family: 'Russo One',sans-serif;
+}
+.r-symbol {
+  font-weight: 700;
+  font-size: 15px;
+  font-family: sans-serif;
 }
 
 .row {
@@ -29,7 +38,6 @@ h1 {
 	border-bottom: 13px solid #212121;
   border-left: 13px solid #212121;
 }
-
 #yellow-button {
 	background-color: yellow;
 	border-radius: 0 0 0 280px;
@@ -45,24 +53,23 @@ h1 {
 	border-right: 26px solid #212121;
 	border-bottom: 26px solid #212121;
   border-left: 13px solid #212121;
-
 }
 #green-button {
-
 	background-color: green;
 	border-radius: 280px 0 0 0;
   border-top: 26px solid #212121;
-    border-left: 26px solid #212121;
+  border-left: 26px solid #212121;
   border-right: 13px solid #212121;
   border-bottom: 13px solid #212121;
 }
 .color-button {
-margin-right: -10px;
+  margin-right: -10px;
   display: inline-block;
- min-height: inherit;
- min-width: inherit;
+  min-height: inherit;
+  min-width: inherit;
 	height: 280px;
   width: 280px;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
 }
 .bottom-button{
 	border-bottom: 20px solid #212121;
@@ -78,10 +85,11 @@ margin-right: -10px;
   left: 21%;
   height: 300px;
   width: 300px;
-  background-color: white;
+  background-color: #fff9e6;
   border: 26px solid #212121;
   border-radius: 300px;
   z-index: 1000;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
 }
 
 #start-button {
@@ -95,6 +103,7 @@ margin-right: -10px;
   left: 90px;
   top: 10px;
   margin-bottom: 5px;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
 }
 
 #strict-button {
@@ -108,6 +117,7 @@ margin-right: -10px;
   top: 10px;
   left: 171px;
   margin-bottom: 5px;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
 }
 
 
@@ -121,6 +131,7 @@ margin-right: -10px;
 	min-height: 13px;
 	width: 13px;
 	border-radius: 13px;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
 }
 
 #count-div {
@@ -135,6 +146,7 @@ margin-right: -10px;
   font-size: 35px;
   font-family: 'Montserrat',sans-serif;
   line-height: 45px;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
 }
 
 #button-labels-row {
@@ -167,6 +179,7 @@ margin-right: -10px;
 
 /* The slider */
 .slider {
+  border-radius: 8px;
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -176,9 +189,11 @@ margin-right: -10px;
   background-color: black;
   -webkit-transition: .4s;
   transition: .4s;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
 }
 
 .slider:before {
+  border-radius: 3px;
   position: absolute;
   content: "";
   height: 26px;
@@ -188,6 +203,7 @@ margin-right: -10px;
   background-color: gray;
   -webkit-transition: .4s;
   transition: .4s;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
 }
 
 input:checked + .slider {
@@ -222,7 +238,7 @@ input:checked + .slider:before {
 }
 
 #game {
-    position: absolute;
+  position: absolute;
 	padding: 0;
 	min-height: inherit;
 	min-width: inherit;
@@ -236,7 +252,6 @@ input:checked + .slider:before {
 	min-width: inherit;
 	min-height: inherit;
 	height: 100%;
-
 }
 
 /*Shrink the game to accomodate smaller window sizes and mobile devices*/
