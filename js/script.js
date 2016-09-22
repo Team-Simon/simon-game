@@ -17,6 +17,10 @@ $(document).ready(function() {
   var speed = 1000;
   const baseSpeed = 1000;
   const lightSpeed = 750;
+  const lighterColors = {'red-button': "#ff9999", 'yellow-button': "lightyellow",
+   'blue-button':"lightblue", 'green-button':"lightgreen"};
+  const normalColors = {'red-button': "red", 'yellow-button': "yellow",
+   'blue-button':"blue", 'green-button':"green"};
 
   function clearTimeoutsArray() {
     timeouts.map(clearTimeout);
@@ -45,7 +49,7 @@ $(document).ready(function() {
 
   $(".color-button").mousedown(function() {
   	if (deviceOn && gameOn && !colorButtonsDisabled){
-  		$(".color-button").css("opacity","1");
+  		$(this).css("background-color",normalColors[$(this)[0].id]);
 			if ($(this)[0].id == buttonHistory[currentIndex]){
 				animateSingleButton($(this)[0].id,true);
 				if (currentIndex < buttonHistory.length - 1) {
@@ -105,7 +109,7 @@ $(document).ready(function() {
 		$("#strict-LED").css("background-color","black");
 		$("#count-box").html("");
 		count = 0;
-		$(".color-button").css("opacity","1");
+		//$(".color-button").css("opacity","1");
 		buttonHistory = [];
   }
 
@@ -127,8 +131,8 @@ $(document).ready(function() {
   		} else {
   			playErrorSound();
   		}
-			$("#" + b).css("opacity","0.5");
-			timeouts.push(setTimeout(function(){$("#" + b).css("opacity","1")}, speed/2));
+			$("#" + b).css("background-color",lighterColors[b]);
+			timeouts.push(setTimeout(function(){$("#" + b).css("background-color",normalColors[b])}, speed/2));
 		}
   }
 
